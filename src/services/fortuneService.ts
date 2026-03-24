@@ -26,6 +26,86 @@ type JsonSchema = {
   additionalProperties?: boolean;
 };
 
+type HexagramLine = "阳" | "阴";
+
+const TRIGRAM_BY_PATTERN: Record<string, string> = {
+  "111": "乾",
+  "110": "兑",
+  "101": "离",
+  "100": "震",
+  "011": "巽",
+  "010": "坎",
+  "001": "艮",
+  "000": "坤",
+};
+
+const HEXAGRAM_NAME_BY_TRIGRAMS: Record<string, string> = {
+  "乾/乾": "乾为天",
+  "坤/坤": "坤为地",
+  "坎/震": "水雷屯",
+  "艮/坎": "山水蒙",
+  "坎/乾": "水天需",
+  "乾/坎": "天水讼",
+  "坤/坎": "地水师",
+  "坎/坤": "水地比",
+  "巽/乾": "风天小畜",
+  "乾/兑": "天泽履",
+  "坤/乾": "地天泰",
+  "乾/坤": "天地否",
+  "乾/离": "天火同人",
+  "离/乾": "火天大有",
+  "坤/艮": "地山谦",
+  "震/坤": "雷地豫",
+  "兑/震": "泽雷随",
+  "艮/巽": "山风蛊",
+  "坤/兑": "地泽临",
+  "巽/坤": "风地观",
+  "离/震": "火雷噬嗑",
+  "艮/离": "山火贲",
+  "艮/坤": "山地剥",
+  "坤/震": "地雷复",
+  "乾/震": "天雷无妄",
+  "艮/乾": "山天大畜",
+  "艮/震": "山雷颐",
+  "兑/巽": "泽风大过",
+  "坎/坎": "坎为水",
+  "离/离": "离为火",
+  "兑/艮": "泽山咸",
+  "震/巽": "雷风恒",
+  "乾/艮": "天山遁",
+  "震/乾": "雷天大壮",
+  "离/坤": "火地晋",
+  "坤/离": "地火明夷",
+  "巽/离": "风火家人",
+  "离/兑": "火泽睽",
+  "坎/艮": "水山蹇",
+  "震/坎": "雷水解",
+  "艮/兑": "山泽损",
+  "巽/震": "风雷益",
+  "兑/乾": "泽天夬",
+  "乾/巽": "天风姤",
+  "兑/坤": "泽地萃",
+  "坤/巽": "地风升",
+  "兑/坎": "泽水困",
+  "坎/巽": "水风井",
+  "兑/离": "泽火革",
+  "离/巽": "火风鼎",
+  "震/震": "震为雷",
+  "艮/艮": "艮为山",
+  "巽/艮": "风山渐",
+  "震/兑": "雷泽归妹",
+  "震/离": "雷火丰",
+  "离/艮": "火山旅",
+  "巽/巽": "巽为风",
+  "兑/兑": "兑为泽",
+  "巽/坎": "风水涣",
+  "坎/兑": "水泽节",
+  "巽/兑": "风泽中孚",
+  "震/艮": "雷山小过",
+  "坎/离": "水火既济",
+  "离/坎": "火水未济",
+};
+
 export type StreamRequestOptions = {
   onTextDelta?: (text: string) => void;
   signal?: AbortSignal;
@@ -74,6 +154,111 @@ function normalizeSchema(schema: JsonSchema): JsonSchema {
   }
 
   return schema;
+}
+
+function normalizeHexagramLine(line: string): HexagramLine | null {
+  const normalized = line.trim();
+
+  if (!normalized) {
+    return null;
+  }
+
+  if (normalized.includes("阳") || normalized === "1") {
+    return "阳";
+  }
+
+  if (normalized.includes("阴") || normalized === "0") {
+    return "阴";
+  }
+
+  return null;
+}
+
+function normalizeHexagramLines(lines: string[] | undefined): HexagramLine[] | null {
+  if (!Array.isArray(lines) || lines.length !== 6) {
+    return null;
+  }
+
+  const normalized = lines
+    .map((line) => normalizeHexagramLine(line))
+    .filter((line): line is HexagramLine => Boolean(line));
+
+  return normalized.length === 6 ? normalized : null;
+}
+
+function resolveHexagramName(lines: HexagramLine[] | null): string | null {
+  if (!lines || lines.length !== 6) {
+    return null;
+  }
+
+  const toBit = (line: HexagramLine) => (line === "阳" ? "1" : "0");
+  const lowerPattern = lines.slice(0, 3).map(toBit).join("");
+  const upperPattern = lines.slice(3, 6).map(toBit).join("");
+  const lowerTrigram = TRIGRAM_BY_PATTERN[lowerPattern];
+  const upperTrigram = TRIGRAM_BY_PATTERN[upperPattern];
+
+  if (!lowerTrigram || !upperTrigram) {
+    return null;
+  }
+
+  return HEXAGRAM_NAME_BY_TRIGRAMS[`${upperTrigram}/${lowerTrigram}`] || null;
+}
+
+function areHexagramLinesEqual(left: HexagramLine[] | null, right: HexagramLine[] | null): boolean {
+  return Boolean(
+    left &&
+      right &&
+      left.length === right.length &&
+      left.every((line, index) => line === right[index])
+  );
+}
+
+function normalizeLiuYaoResult(result: LiuYaoResult): LiuYaoResult {
+  const benguaLines = normalizeHexagramLines(result.benguaLines);
+  const bianguaLines = normalizeHexagramLines(result.bianguaLines);
+  const benguaName = resolveHexagramName(benguaLines);
+  const bianguaName = resolveHexagramName(bianguaLines);
+  const hasBiangua =
+    Boolean(bianguaName) &&
+    !areHexagramLinesEqual(benguaLines, bianguaLines);
+
+  return {
+    ...result,
+    bengua: benguaName || result.bengua,
+    biangua: hasBiangua ? bianguaName || result.biangua : "无",
+    benguaLines: benguaLines || result.benguaLines,
+    bianguaLines: hasBiangua && bianguaLines ? bianguaLines : [],
+  };
+}
+
+function buildHexagramInfoFromTosses(tosses: number[]) {
+  if (tosses.length !== 6) {
+    return null;
+  }
+
+  const benguaLines = tosses.map((toss) => (toss === 7 || toss === 9 ? "阳" : "阴")) as HexagramLine[];
+  const bianguaLines = tosses.map((toss) => {
+    if (toss === 6) {
+      return "阳";
+    }
+    if (toss === 9) {
+      return "阴";
+    }
+    return toss === 7 ? "阳" : "阴";
+  }) as HexagramLine[];
+  const benguaName = resolveHexagramName(benguaLines);
+  const bianguaName = resolveHexagramName(bianguaLines);
+  const hasBiangua =
+    Boolean(bianguaName) &&
+    !areHexagramLinesEqual(benguaLines, bianguaLines);
+
+  return {
+    benguaLines,
+    bianguaLines,
+    benguaName,
+    bianguaName,
+    hasBiangua,
+  };
 }
 
 function extractTextFromResponsesPayload(payload: any): string {
@@ -1240,8 +1425,19 @@ export async function calculateLiuYao(
 
   let methodPrompt = "";
   if (method === 'coin' && tosses && tosses.length === 6) {
-    methodPrompt = `用户使用了铜钱摇卦法，从初爻到上爻的结果分别是：[${tosses.join(', ')}]。
-【极其重要】：必须严格按照此摇卦结果来排演本卦和变卦！`;
+    const localHexagramInfo = buildHexagramInfoFromTosses(tosses);
+    const benguaLinesText = localHexagramInfo?.benguaLines.join("、") || "未知";
+    const bianguaLinesText = localHexagramInfo?.hasBiangua ? localHexagramInfo.bianguaLines.join("、") : "无";
+    const benguaNameText = localHexagramInfo?.benguaName || "未知";
+    const bianguaNameText = localHexagramInfo?.hasBiangua ? localHexagramInfo?.bianguaName || "未知" : "无";
+
+    methodPrompt = `用户使用了铜钱摇卦法，从初爻到上爻的 tosses 结果分别是：[${tosses.join(', ')}]。
+本地排卦核对结果如下：
+- 本卦六爻（初爻到上爻）：[${benguaLinesText}]
+- 本卦卦名：${benguaNameText}
+- 变卦六爻（初爻到上爻）：[${bianguaLinesText}]
+- 变卦卦名：${bianguaNameText}
+【极其重要】：你必须严格以以上 tosses 与本地核对出的卦名/卦象作为排演依据，不得自行改卦或改名。`;
   } else {
     methodPrompt = `用户使用了时间起卦法，时间是：${date} ${time}。`;
   }
@@ -1264,10 +1460,12 @@ ${harshPrompt}
 【补充推演要求】：
 1. 必须先确定本卦、变卦、动爻、世应、用神、六亲，再展开整体判断。
 2. 若是铜钱起卦，必须严格以给定摇卦结果排卦，不得自行改卦。
-3. 详细分析(detailedAnalysis)要说明关键爻位、世应关系、用神旺衰与动变逻辑，不要只给结果。
-4. 建议(advice)必须针对问事场景，说明宜主动、宜等待、宜回避还是宜观察。`;
+3. 你返回的 bengua、biangua 必须与 benguaLines、bianguaLines 严格一一对应，先根据六爻阴阳结构核对卦名后再输出，禁止出现卦象与卦名不一致。
+4. 若 bianguaLines 与 benguaLines 完全相同，则 biangua 必须返回“无”。
+5. 详细分析(detailedAnalysis)要说明关键爻位、世应关系、用神旺衰与动变逻辑，不要只给结果。
+6. 建议(advice)必须针对问事场景，说明宜主动、宜等待、宜回避还是宜观察。`;
 
-  const refinedSystemInstruction = "你是一个深耕中国传统命理的道士，精通六爻预测。擅长排演本卦、变卦，并根据动爻、世应、用神、六亲进行断事。必须先定卦象结构，再讲作用逻辑，再下结论与建议，避免空泛断语。";
+  const refinedSystemInstruction = "你是一个深耕中国传统命理的道士，精通六爻预测。擅长排演本卦、变卦，并根据动爻、世应、用神、六亲进行断事。必须先定卦象结构，再逐条核对卦象与卦名是否一致，然后再讲作用逻辑，再下结论与建议，避免空泛断语。";
 
   const response = await ai.models.generateContent({
     model: currentModel,
@@ -1302,7 +1500,7 @@ ${harshPrompt}
 
   const text = response.text;
   if (!text) throw new Error("未能获取测算结果，请稍后再试。");
-  return parseStructuredJson<LiuYaoResult>(text);
+  return normalizeLiuYaoResult(parseStructuredJson<LiuYaoResult>(text));
 }
 
 export async function calculateDailyFortune(
